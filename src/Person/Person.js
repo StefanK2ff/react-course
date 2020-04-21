@@ -7,6 +7,7 @@ export default function Person(props) {
       <p>
         I'm {name} and {age}
       </p>
+      
       <p>
           {props.children}
       </p>
