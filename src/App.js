@@ -6,12 +6,12 @@ import UserOutput from "./Components/UserOutput"
 
 export default class App extends Component {
   state = {
-    userNames: ["Max", "Bob", "Lilly"]
+    userName: "Bob"
   };
 
-  nameChanger = (name) => {
+  nameChanger = (event) => {
     this.setState({
-      userNames: [name, "Pete", "Jack"],
+      userName: event.target.value,
     });
   };
 
@@ -19,10 +19,8 @@ export default class App extends Component {
     return (
       <div className="App">
         <h1>some text</h1>
-        <UserInput change={this.nameChanger}/>
-        <UserOutput userName={this.state.userNames[0]}/>
-        <UserOutput userName={this.state.userNames[1]}/>
-        <UserOutput userName={this.state.userNames[2]}/>
+        <UserInput change={this.nameChanger} userName={this.state.userName}/>
+        <UserOutput userName={this.state.userName}/>
        </div>
     );
   }
