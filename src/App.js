@@ -18,6 +18,8 @@ export default class App extends Component {
       persons: [...this.state.persons, { name: newName, age: 14 }],
     });
   };
+
+
   newNameHandler = (e) => {
     this.setState({
       persons: [...this.state.persons, { name: e.target.value, age: 50 }],
@@ -26,6 +28,10 @@ export default class App extends Component {
   toggleList = () => {
     this.setState({ listVisble: !this.state.listVisble });
   };
+
+  deletePos = () => {
+    
+  }
 
   render() {
     const style = {
@@ -45,17 +51,10 @@ export default class App extends Component {
             >
               SwitchName
             </button>
-            <Person
-              name="Max"
-              age="28"
-              change={this.newNameHandler}
-              click={this.switchNameHandler.bind(this, "MAXX")}
-            />
-            <Person name="Bob" age="142">
-              {" "}
-              Some hobbies
-            </Person>
-            <Person name="Richy" age="42" />
+            {/* Generates a List */}
+            {this.state.persons.map(person => {
+              return <Person name={person.name} age={person.age} click={this.deletePos}/>
+            })}
           </div>
       )
     }
