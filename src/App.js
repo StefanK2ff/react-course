@@ -10,6 +10,7 @@ export default class App extends Component {
       { name: "Bob", age: 12 },
       { name: "Richy", age: 124 },
     ],
+    listVisble: false,
   };
 
   switchNameHandler = (newName) => {
@@ -22,6 +23,9 @@ export default class App extends Component {
       persons: [...this.state.persons, { name: e.target.value, age: 50 }],
     });
   };
+  toggleList = () => {
+    this.setState({ listVisble: !this.state.listVisble });
+  };
 
   render() {
     const style = {
@@ -29,27 +33,40 @@ export default class App extends Component {
       border: "1px solid red",
     };
 
+    let persons = null;
+
+    if (this.state.listVisble) {
+      persons = (
+        <div className="list">
+            {/* may inefficient */}
+            <button
+              onClick={() => this.switchNameHandler.bind("BOBOB")}
+              style={style}
+            >
+              SwitchName
+            </button>
+            <Person
+              name="Max"
+              age="28"
+              change={this.newNameHandler}
+              click={this.switchNameHandler.bind(this, "MAXX")}
+            />
+            <Person name="Bob" age="142">
+              {" "}
+              Some hobbies
+            </Person>
+            <Person name="Richy" age="42" />
+          </div>
+      )
+    }
+
     return (
       <div className="App">
         <h1>some text</h1>
-        {/* may inefficient */}
-        <button
-          onClick={() => this.switchNameHandler.bind("BOBOB")}
-          style={style}
-        >
-          SwitchName
-        </button>
-        <Person
-          name="Max"
-          age="28"
-          change={this.newNameHandler}
-          click={this.switchNameHandler.bind(this, "MAXX")}
-        />
-        <Person name="Bob" age="142">
-          {" "}
-          Some hobbies
-        </Person>
-        <Person name="Richy" age="42" />
+        <button onClick={this.toggleList}>toggle List</button>
+        {/* {this.state.listVisble ? ( */}
+          {persons}
+        {/* ) : null} */}
       </div>
     );
   }
