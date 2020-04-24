@@ -6,32 +6,44 @@ import Person from "./Person/Person";
 export default class App extends Component {
   state = {
     persons: [
-      { name: "Max", age: 14 },
-      { name: "Bob", age: 12 },
-      { name: "Richy", age: 124 },
+      { id: "eaeofisebf", name: "Max", age: 14 },
+      { id: "eofifssebf", name: "Bob", age: 12 },
+      { id: "eofi12sebf", name: "Richy", age: 124 },
     ],
     listVisble: false,
   };
 
-  switchNameHandler = (newName) => {
+  nameChangeHandler = (e, id) => {
+    const resultIndex = this.state.persons.findIndex(person => {
+      return person.id === id;
+    })
+
+    const updatePerson = {...this.state.persons[resultIndex]}
+    updatePerson.name = e.target.value
+
+    const personList = [...this.state.persons];
+    personList[resultIndex] = updatePerson
+    
     this.setState({
-      persons: [...this.state.persons, { name: newName, age: 14 }],
+      persons: personList
     });
   };
-
 
   newNameHandler = (e) => {
     this.setState({
       persons: [...this.state.persons, { name: e.target.value, age: 50 }],
     });
   };
+
   toggleList = () => {
     this.setState({ listVisble: !this.state.listVisble });
   };
 
-  deletePos = () => {
-    
-  }
+  deletePos = (posIndex) => {
+    const newList = [...this.state.persons]; // or .slice () makes a true copy / or spread operator
+    newList.splice(posIndex, 1);
+    this.setState({ persons: newList });
+  };
 
   render() {
     const style = {
@@ -44,19 +56,27 @@ export default class App extends Component {
     if (this.state.listVisble) {
       persons = (
         <div className="list">
-            {/* may inefficient */}
-            <button
-              onClick={() => this.switchNameHandler.bind("BOBOB")}
-              style={style}
-            >
-              SwitchName
-            </button>
-            {/* Generates a List */}
-            {this.state.persons.map(person => {
-              return <Person name={person.name} age={person.age} click={this.deletePos}/>
-            })}
-          </div>
-      )
+          {/* may inefficient */}
+          <button
+            onClick={() => this.switchNameHandler.bind("BOBOB")}
+            style={style}
+          >
+            SwitchName
+          </button>
+          {/* Generates a List */}
+          {this.state.persons.map((person, index) => {
+            return (
+              <Person
+                name={person.name}
+                age={person.age}
+                click={() => this.deletePos(index)}
+                key={person.id}
+                change={(e) => this.nameChangeHandler(e, person.id)}
+              />
+            );
+          })}
+        </div>
+      );
     }
 
     return (
@@ -64,7 +84,7 @@ export default class App extends Component {
         <h1>some text</h1>
         <button onClick={this.toggleList}>toggle List</button>
         {/* {this.state.listVisble ? ( */}
-          {persons}
+        {persons}
         {/* ) : null} */}
       </div>
     );
